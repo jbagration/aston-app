@@ -17,12 +17,10 @@ const HeartIcon: React.FC<HeartIconProps> = ({ id }) => {
   const { email: user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-  // Determine if the book is a favourite
   let isFavourite = favourites[id];
   
-  // Check if the user is logged in
   if (!user) {
-    isFavourite = false; // Set isFavourite to false if the user is not logged in
+    isFavourite = false;
   }
 
   const heartIconClasses = classNames('heart-icon', { favourite: isFavourite });
