@@ -17,8 +17,8 @@ const Favourites = () => {
 
   const arrayOfIds = Object.keys(favourites);
   const ids = arrayOfIds.length > 0 ? arrayOfIds.join(',') : '-1';
-
-  const { data: books, isLoading, isSuccess, isError } = useGetBooksByIdsQuery(ids);
+ 
+  const { data: books, isLoading, isSuccess, isError } = useGetBooksByIdsQuery([ids]);
 
   const deleteAllFavourites = () => {
     dispatch(favouritesActions.deleteAll());
