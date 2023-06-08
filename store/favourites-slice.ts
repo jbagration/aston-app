@@ -20,13 +20,11 @@ const favouritesSlice = createSlice({
     },
 
     deleteAll(state) {
-      for (let key in state) {
-        delete state[key];
-      }
+      return {};
     },
 
     replaceAll(state, action) {
-      state = action.payload;
+      return action.payload;
     },
   },
 });
