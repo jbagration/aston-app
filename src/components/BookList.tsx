@@ -25,7 +25,8 @@ const BookList: React.FC<{ books: BookData[]; searchParams: {} }> = React.memo(
     useEffect(() => {
       if (
         (previousPage === 'history' || clickedComponent === 'pagination') &&
-        isFirstLoading === false
+        isFirstLoading
+
       ) {
         return;
       } else {
