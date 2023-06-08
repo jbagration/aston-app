@@ -6,7 +6,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://gutendex.com/books' }),
   endpoints: (builder) => ({
     getBookById: builder.query({
-      query: (id) => `/${id}`,
+      query: (id) => ({ url: `/${id}` }),
       transformResponse: (responseData: BookData) => {
         const {
           id,
@@ -31,14 +31,21 @@ export const apiSlice = createApi({
       },
     }),
     getBooksByIds: builder.query({
-      query: (ids) => `?ids=${ids}`,
+      query: (ids) => ({
+        url: '/',
+        params: {
+          ids: ids.join(','),
+        },
+      }),
       transformResponse: (responseData: BooksData) => {
         const { results: books } = responseData;
         return books;
       },
     }),
     getBooks: builder.query({
-      query: (query) => (query && `?${query}`) || '',
+      query: (query) => ({
+        url: query ? `?${query}` : '',
+      }),
       transformResponse: (responseData: BooksData) => {
         const { count, results } = responseData;
         return {
