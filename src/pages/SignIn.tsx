@@ -7,7 +7,11 @@ import { RootState } from '../types/types';
 const SignIn = () => {
   const { email: user } = useSelector<RootState, any>((state) => state.user);
 
-  return user ? <Navigate to='/' replace /> : <AuthForm header='Sign In' type='signin' />;
+  if (user) {
+    return <Navigate to='/' replace />;
+  }
+
+  return <AuthForm header='Sign In' type='signin' />;
 };
 
 export default SignIn;
