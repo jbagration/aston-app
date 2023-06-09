@@ -1,5 +1,4 @@
 import { Component } from 'react';
-
 import { Props } from '../types/types';
 
 class ErrorBoundary extends Component<Props, { hasError: boolean }> {
@@ -8,7 +7,7 @@ class ErrorBoundary extends Component<Props, { hasError: boolean }> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true };
   }
 
