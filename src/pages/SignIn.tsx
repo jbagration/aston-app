@@ -5,7 +5,7 @@ import AuthForm from '../components/AuthForm';
 import { RootState } from '../types/types';
 
 const SignIn = () => {
-  const { email: user } = useSelector<RootState, any>((state) => state.user);
+  const { email: user } = useSelector<RootState, { email: string }>((state) => state.user);
 
   if (user) {
     return <Navigate to='/' replace />;
