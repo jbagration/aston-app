@@ -79,11 +79,11 @@ https://github.com/jbagration/aston-app/blob/main/src/store/api-slice.ts<br><br>
 Используется Transforming Responses <br>
 https://github.com/jbagration/aston-app/blob/main/src/store/api-slice.ts<br><br>
 <b>2 уровень (необязательный).</b><br>
-Проведена оптимизация приложения ✔<br><br>
-Используются мемоизированные селекторы (createSelector)<br>
+Проведена оптимизация приложения ✔<br>
+Использование TypeScript ✔<br><br>
+Используются мемоизированные селекторы (createSelector) ✔<br>
 https://github.com/jbagration/aston-app/blob/redux/src/pages/Favourites.tsx<br>
 https://github.com/jbagration/aston-app/blob/redux/src/pages/History.tsx<br><br>
-Использование TypeScript ✔<br><br>
 Используется нормализованная структура стейта (createEntityAdapter) ✖<br>
 Подключен storybook и созданы несколько сторисов ✖<br>
 Реализовать фичу “Поделиться в телеграм”, закрытую под фича флагом ✖
