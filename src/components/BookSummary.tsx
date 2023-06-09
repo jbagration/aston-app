@@ -15,7 +15,7 @@ const BookSummary: React.FC<{ book: BookData; onClick: () => void }> = (
   return (
     <li className='book-summary card' onClick={props.onClick}>
       <div className='book-image'>
-        <HeartIcon id={book.id} /> {/* Перемещаем HeartIcon внутрь book-image */}
+        <HeartIcon id={book.id} />
         <img src={changedData.cover} alt='book cover' />
       </div>
       <div className='book-description'>
