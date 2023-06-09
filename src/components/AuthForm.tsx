@@ -13,7 +13,7 @@ const AuthForm: React.FC<{ header: string; type: 'signin' | 'signup' }> = (props
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
-  const [isFormValid, setIsFormValid] = useState(false); // Добавлено состояние для проверки валидности формы
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const {
     isInvalid: isEmailInvalid,
@@ -45,7 +45,7 @@ const AuthForm: React.FC<{ header: string; type: 'signin' | 'signup' }> = (props
     }
   };
 
-  // Обновление состояния валидности формы при изменении полей ввода
+
   const handleInputChange = () => {
     const enteredEmail = emailInputRef.current!.value;
     const enteredPassword = passwordInputRef.current!.value;
@@ -67,7 +67,7 @@ const AuthForm: React.FC<{ header: string; type: 'signin' | 'signup' }> = (props
             id='email'
             required
             ref={emailInputRef}
-            onChange={handleInputChange} // Добавлен обработчик изменения поля ввода
+            onChange={handleInputChange}
           />
           {isEmailInvalid && <span>Email is invalid.</span>}
         </div>
@@ -79,16 +79,16 @@ const AuthForm: React.FC<{ header: string; type: 'signin' | 'signup' }> = (props
             id='password'
             required
             ref={passwordInputRef}
-            onChange={handleInputChange} // Добавлен обработчик изменения поля ввода
+            onChange={handleInputChange} 
           />
           {isPasswordInvalid && <span>Password must be at least 5 characters long and contain letters, numbers, and symbols.</span>}
         </div>
         <div className='form__action'>
           <button
-            className={`button ${!isFormValid ? 'disabled' : ''}`} // Добавлено условное классовое имя 'disabled'
+            className={`button ${!isFormValid ? 'disabled' : ''}`} 
             type='submit'
-            disabled={!isFormValid} // Добавлено свойство disabled
-            style={{ cursor: isFormValid ? 'pointer' : 'not-allowed' }} // Изменен стиль курсора
+            disabled={!isFormValid} 
+            style={{ cursor: isFormValid ? 'pointer' : 'not-allowed' }} 
           >
             {props.header}
           </button>
