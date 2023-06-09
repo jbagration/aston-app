@@ -1,15 +1,22 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Navigate } from 'react-router-dom';
+import { createSelector } from 'reselect';
 
 import HistoryItem from '../components/HistoryItem';
 import Wrapper from '../components/Layout/Wrapper';
 import { historyActions } from '../store/history-slice';
 import { RootState } from '../types/types';
 
+const selectHistory = (state: RootState) => state.history;
+const selectIsHistoryEmpty = createSelector(
+  selectHistory,
+  (history) => history.length === 0
+);
+
 const History = () => {
   const navigate = useNavigate();
-  const history = useSelector((state: RootState) => state.history);
-  const isHistoryEmpty = history.length === 0;
+  const history = useSelector(selectHistory);
+  const isHistoryEmpty = useSelector(selectIsHistoryEmpty);
   const { email: user } = useSelector((state: RootState) => state.user);
 
   const historyList = history.map((item) => {
@@ -44,7 +51,10 @@ const History = () => {
   return (
     <Wrapper>
       <div className='history'>
-        <button className={`button ${isHistoryEmpty ? 'disabled' : ''}`} onClick={clearHistoryHandler}>
+        <button
+          className={`button ${isHistoryEmpty ? 'disabled' : ''}`}
+          onClick={clearHistoryHandler}
+        >
           Clear history
         </button>
         <ul>{historyList}</ul>
