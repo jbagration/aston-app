@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { Navigate } from 'react-router-dom';
 
 import Wrapper from '../components/Layout/Wrapper';
@@ -10,14 +11,19 @@ import { RootState } from '../types/types';
 
 const LazyFavouritesList = lazy(() => import('../components/FavouritesList'));
 
+const selectFavourites = createSelector(
+  (state: RootState) => state.favourites,
+  (favourites) => favourites
+);
+
 const Favourites = () => {
-  const favourites = useSelector((state: RootState) => state.favourites);
+  const favourites = useSelector(selectFavourites);
   const { email: user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const arrayOfIds = Object.keys(favourites);
   const ids = arrayOfIds.length > 0 ? arrayOfIds.join(',') : '-1';
- 
+
   const { data: books, isLoading, isSuccess, isError } = useGetBooksByIdsQuery([ids]);
 
   const deleteAllFavourites = () => {
