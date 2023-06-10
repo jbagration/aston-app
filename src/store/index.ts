@@ -1,3 +1,4 @@
+import { Middleware } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import saveUserData from '../helpers/saveUserData';
@@ -17,7 +18,10 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(saveUserData as any, apiSlice.middleware), 
+    getDefaultMiddleware().concat(
+      saveUserData as Middleware<{}, any, any>,
+      apiSlice.middleware as Middleware<{}, any, any>
+    ),
   preloadedState,
 });
 
