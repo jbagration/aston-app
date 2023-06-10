@@ -16,6 +16,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ defaultValues }) => {
   const [copyrightInput, setCopyrightInput] = useState<string>(
     copyright || searchAll
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +24,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ defaultValues }) => {
 
   useEffect(() => {
     const searchHandler = debounce(() => {
+      setIsLoading(true);
+
       const newSearchParams = `search=${encodeURIComponent(
         searchInput || searchAll
       )}&languages=${encodeURIComponent(langInput)}&copyright=${encodeURIComponent(
@@ -32,6 +35,10 @@ const SearchForm: React.FC<SearchFormProps> = ({ defaultValues }) => {
       navigate(`?${newSearchParams}`, {
         state: { previousPage: window.location.pathname },
       });
+
+      setTimeout(() => {
+        setIsLoading(false); 
+      }, 2000);
     }, 2000);
 
     searchHandler();
@@ -71,6 +78,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ defaultValues }) => {
           <option value="false">No</option>
         </select>
       </div>
+      {isLoading && <div className='info__search'>Loading...</div>}
     </form>
   );
 };
