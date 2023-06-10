@@ -73,7 +73,7 @@ const Pagination: React.FC<{
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === 0) {
             return (
-              <span key={index} className='pagination-item'>
+              <span key={`dots-${index}`} className='pagination-item'>
                 &#8230;
               </span>
             );
