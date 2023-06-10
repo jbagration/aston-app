@@ -68,7 +68,11 @@ body {
   right: 6px;
   bottom: 6px;
 }
-
+.info__search{
+  color: #ca8ec5;
+  font-size: 2rem;
+  background-color: #000000;
+}
 .book-list {
   display: flex;
   justify-content: center;
