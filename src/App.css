@@ -410,7 +410,11 @@ footer.blue ul li:hover {
   font-size: 3rem;
   background-color: #000000;
 }
-
+.info__search{
+  color: #ca8ec5;
+  font-size: 2rem;
+  background-color: #000000;
+}
 .pagination {
   display: flex;
   justify-content: center;
