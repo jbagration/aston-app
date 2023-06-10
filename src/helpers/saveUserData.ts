@@ -1,100 +1,85 @@
-const saveUserData = (store: any) => (next: any) => (action: any) => {
+import { Store, Dispatch, AnyAction } from 'redux';
+import { RootState } from '../types/types';
+
+const saveUserData = (store: Store<RootState, AnyAction>) => (
+  next: Dispatch<AnyAction>
+) => (action: AnyAction) => {
   let result = next(action);
+  const savedStore = localStorage.getItem('store');
+  const parsedSavedStore = savedStore ? JSON.parse(savedStore) : {};
 
   switch (action.type) {
     case 'user/logout': {
-      const savedStore = localStorage.getItem('store');
-      const parsedSavedStore = savedStore ? JSON.parse(savedStore) : {};
-      const userData = store.getState();
-      parsedSavedStore[userData.user.email] = {
-        user: userData.user,
-        history: userData.history,
-        favourites: userData.favourites,
-      };
+      const { user, history, favourites } = store.getState();
+      parsedSavedStore[user.email] = { user, history, favourites };
 
       localStorage.setItem('store', JSON.stringify(parsedSavedStore));
       localStorage.removeItem('currentUser');
       break;
     }
     case 'user/login': {
-      const savedStore = localStorage.getItem('store');
-      const parsedSavedStore = savedStore ? JSON.parse(savedStore) : {};
       const userData = parsedSavedStore[action.payload];
-      const history = JSON.stringify(store.getState().history);
-      const favourites = JSON.stringify(store.getState().favourites);
-    
-      if (userData) {
-        localStorage.setItem('currentUser', JSON.stringify(userData.user));
-        localStorage.setItem('history', history);
-        localStorage.setItem('favourites', favourites);
+      const { history, favourites } = store.getState();
+      const currentUser = userData?.user;
+
+      if (currentUser) {
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        localStorage.setItem('history', JSON.stringify(history));
+        localStorage.setItem('favourites', JSON.stringify(favourites));
       } else {
-        alert("We couldn't find your email. Please, sign up.");
-    
-        let result = next({
+        alert("We couldn't find your email. Please sign up.");
+
+        result = next({
           type: 'user/login',
           payload: {
             error: true,
           },
         });
-    
-        return result;
       }
       break;
     }
-    
     case 'user/signup': {
-      const savedStore = localStorage.getItem('store');
-      const parsedSavedStore = savedStore ? JSON.parse(savedStore) : {};
       const userData = parsedSavedStore[action.payload];
-    
+
       if (userData) {
-        alert('This email already exists. Please, sign In.');
-    
-        let result = next({
+        alert('This email already exists. Please sign in.');
+
+        result = next({
           type: 'user/signup',
           payload: {
             error: true,
           },
         });
-    
-        return result;
       } else {
         const user = {
           email: action.payload,
-          password: action.payload.password
-                };
-    
+          password: action.payload.password,
+        };
+
         localStorage.setItem('currentUser', JSON.stringify(user));
-        parsedSavedStore[action.payload] = { user: user };
+        parsedSavedStore[action.payload] = { user };
         localStorage.setItem('store', JSON.stringify(parsedSavedStore));
       }
-    
       break;
     }
-    
-
     case 'history/add': {
       const { history } = store.getState();
       localStorage.setItem('history', JSON.stringify(history));
       break;
     }
-
     case 'history/deleteAll': {
       localStorage.removeItem('history');
       break;
     }
-
     case 'favourites/toggleFavourites': {
       const { favourites } = store.getState();
       localStorage.setItem('favourites', JSON.stringify(favourites));
       break;
     }
-
     case 'favourites/deleteAll': {
       localStorage.removeItem('favourites');
       break;
     }
-
     default:
       break;
   }

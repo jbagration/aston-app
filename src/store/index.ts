@@ -17,7 +17,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(saveUserData, apiSlice.middleware),
+    getDefaultMiddleware().concat(saveUserData as any, apiSlice.middleware), 
   preloadedState,
 });
 
