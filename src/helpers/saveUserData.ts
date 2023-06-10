@@ -15,6 +15,10 @@ const saveUserData = (store: Store<RootState, AnyAction>) => (
 
       localStorage.setItem('store', JSON.stringify(parsedSavedStore));
       localStorage.removeItem('currentUser');
+      localStorage.removeItem('history');
+      localStorage.removeItem('favourites');
+      localStorage.removeItem('searchQueries');
+
       break;
     }
     case 'user/login': {
@@ -24,8 +28,8 @@ const saveUserData = (store: Store<RootState, AnyAction>) => (
 
       if (currentUser) {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        localStorage.setItem('history', JSON.stringify(history));
-        localStorage.setItem('favourites', JSON.stringify(favourites));
+        localStorage.setItem(`${currentUser.email}_history`, JSON.stringify(history));
+        localStorage.setItem(`${currentUser.email}_favourites`, JSON.stringify(favourites));
       } else {
         alert("We couldn't find your email. Please sign up.");
 
@@ -59,6 +63,8 @@ const saveUserData = (store: Store<RootState, AnyAction>) => (
         localStorage.setItem('currentUser', JSON.stringify(user));
         parsedSavedStore[action.payload] = { user };
         localStorage.setItem('store', JSON.stringify(parsedSavedStore));
+        localStorage.removeItem('searchQueries');
+        localStorage.removeItem('favourites');
       }
       break;
     }
