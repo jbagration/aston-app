@@ -1,4 +1,4 @@
-import PropTypes, { InferProps } from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import editFetchData from '../helpers/editFetchData';

@@ -1,11 +1,10 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import AuthForm from '../components/AuthForm';
 import { RootState } from '../types/types';
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const { email: user } = useSelector<RootState, { email: string }>((state) => state.user);
 
   if (user) {
