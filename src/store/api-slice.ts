@@ -3,10 +3,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BookData, BooksData } from '../types/types';
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://gutendex.com/books' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://gutendex.com/' }), 
   endpoints: (builder) => ({
     getBookById: builder.query({
-      query: (id) => ({ url: `/${id}` }),
+      query: (id) => ({ url: `/books/${id}` }), 
       transformResponse: (responseData: BookData) => {
         const {
           id,
@@ -32,7 +32,7 @@ export const apiSlice = createApi({
     }),
     getBooksByIds: builder.query({
       query: (ids) => ({
-        url: '/',
+        url: '/books',
         params: {
           ids: ids.join(','),
         },
@@ -44,7 +44,7 @@ export const apiSlice = createApi({
     }),
     getBooks: builder.query({
       query: (query) => ({
-        url: query ? `?${query}` : '',
+        url: query ? `/books/?${query}` : '/books', 
       }),
       transformResponse: (responseData: BooksData) => {
         const { count, results } = responseData;

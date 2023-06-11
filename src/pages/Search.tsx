@@ -1,5 +1,5 @@
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSearchParams, useNavigate, createSearchParams } from 'react-router-dom';
-import { useCallback, lazy, Suspense } from 'react';
 
 import Loading from '../components/Layout/Loading';
 import Wrapper from '../components/Layout/Wrapper';
@@ -14,6 +14,8 @@ const LazySearchForm = lazy(() => import('../components/SearchForm'));
 const Search = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [loadingSearch, setLoadingSearch] = useState(false); 
+  const [switchingPages, setSwitchingPages] = useState(false); 
 
   const filterValidParams = useCallback((param: [string, string]) => {
     return searchCategories.some((elem) => param[0] === elem);
@@ -39,6 +41,7 @@ const Search = () => {
 
   const pageChangeHandler = useCallback(
     (clickedPage: number) => {
+      setSwitchingPages(true); 
       navigate(
         `?${createSearchParams({
           ...filteredValidParams,
@@ -50,19 +53,25 @@ const Search = () => {
     [filteredValidParams, navigate]
   );
 
+  const handleSearchInput = useCallback((input: string) => {
+    setLoadingSearch(true);
+    setTimeout(() => {
+      setLoadingSearch(false); 
+    }, 2000);
+  }, []);
+
   let count = 0;
   let content = (
     <p className='info'>
-      Sorry, we couldn't find any books. Change the search parameters and try
-      again.
+      Sorry, we couldn't find any books. Change the search parameters and try again.
     </p>
   );
 
-  if (isFetching) {
+  if (loadingSearch || isFetching || switchingPages) {
     content = <Loading />;
   }
 
-  if (isSuccess) {
+  if (isSuccess && !loadingSearch && !switchingPages) {
     const { books } = data;
     count = data.count;
 
@@ -97,8 +106,18 @@ const Search = () => {
   }
 
   if (isError) {
-    content = <p className='info'>{'Oops! Something went wrong.'}</p>;
+    content = <p className='info'>Oops! Something went wrong.</p>;
   }
+
+  useEffect(() => {
+    if (switchingPages) {
+      const timer = setTimeout(() => {
+        setSwitchingPages(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [switchingPages]);
 
   return (
     <Wrapper>
@@ -110,6 +129,7 @@ const Search = () => {
               languages: filteredSearchParams.languages || searchAll,
               copyright: filteredSearchParams.copyright || searchAll,
             }}
+            onSearchInput={handleSearchInput}
           />
           {content}
         </Suspense>
