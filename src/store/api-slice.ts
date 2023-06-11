@@ -3,14 +3,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BookData, BooksData } from '../types/types';
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://gutendex.com/' }), 
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://gutendex.com/books' }),
   endpoints: (builder) => ({
     getBookById: builder.query({
-      query: (id) => ({ url: `/books/${id}` }), 
+      query: (id) => ({ url: `/${id}` }),
       transformResponse: (responseData: BookData) => {
         const {
           id,
-          detail,
           formats,
           title,
           download_count,
@@ -20,7 +19,6 @@ export const apiSlice = createApi({
         } = responseData;
         return {
           id,
-          detail,
           formats,
           title,
           download_count,
@@ -32,7 +30,7 @@ export const apiSlice = createApi({
     }),
     getBooksByIds: builder.query({
       query: (ids) => ({
-        url: '/books',
+        url: '/',
         params: {
           ids: ids.join(','),
         },
@@ -44,7 +42,7 @@ export const apiSlice = createApi({
     }),
     getBooks: builder.query({
       query: (query) => ({
-        url: query ? `/books/?${query}` : '/books', 
+        url: query ? `/?${query}` : '',
       }),
       transformResponse: (responseData: BooksData) => {
         const { count, results } = responseData;
