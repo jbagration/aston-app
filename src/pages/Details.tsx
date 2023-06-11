@@ -12,7 +12,7 @@ const Details = () => {
 
   if (isLoading) {
     content = <Loading />;
-  } else if (isSuccess && book?.detail !== 'Not found.') {
+  } else if (isSuccess) {
     content = <BookDetails book={book} />;
   } else if (isError) {
     content = <p className='info'>Oops! Something went wrong.</p>;
