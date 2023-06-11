@@ -4,7 +4,6 @@ export type Props = {
 
 export type BookData = {
   id: number;
-  detail: string;
   formats: { 'image/jpeg': string };
   title: string;
   download_count: number;
